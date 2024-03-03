@@ -1,11 +1,59 @@
+'use client';
+
+import Grid from "@/app/components/grid/grid";
+import { getRandomWord } from "./lib/words";
+import { useState } from "react";
+import { createArrayWithSpace, matrixOfArrays } from "./lib/common";
+
 export default function Home() {
+  const [newWord, setNewWord] = useState("pazos");
+  const length = newWord.length;
+  
+
+  const initialMatrix = matrixOfArrays(length, 6, '');
+  const [matrix, setMatrix] = useState(initialMatrix);
+  const [indexRowMatrix, setIndexRowMatrix] = useState(0);
+
+
+  const [textInput, setTextInput] = useState('');
+  const [check, setCheck] = useState(false);
+
+
+  const handleOnChange = (text: string) => {
+    setTextInput(text);
+    if (matrix && indexRowMatrix < matrix.length) {
+      const newMatrix = [...matrix];
+      const arrayFormated = createArrayWithSpace(text, length);
+      for (let i = 0; i < newMatrix[indexRowMatrix].length; i++) {
+        newMatrix[indexRowMatrix][i] = arrayFormated[i];
+      }
+      setMatrix(newMatrix);
+    }
+  }
+
+
+  const handleClickCheck = () => {
+    setCheck(!check)
+    if (!check) {
+      setIndexRowMatrix(indexRowMatrix + 1)
+      setTextInput('');
+    }
+  }
+
   return (
     <main className="bg-white dark:bg-slate-800">
       <div className="rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
         <h3 className="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
-        <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">
-          The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
-        </p>
+        <p>{newWord}</p>
+        <input
+          autoFocus={true}
+          maxLength={5}
+          type="text"
+          value={textInput}
+          onChange={(e) => handleOnChange(e.target.value)} />
+
+        <button onClick={handleClickCheck}>check!</button>
+        <Grid word={newWord} revealResult={check} matrix={matrix} />
       </div>
     </main>
   );
