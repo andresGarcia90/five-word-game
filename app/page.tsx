@@ -7,6 +7,7 @@ import { createArrayWithSpace, matrixOfArrays } from "./lib/common";
 
 export default function Home() {
   const [newWord, setNewWord] = useState("pazos");
+  // const newWord = getRandomWord();
   const length = newWord.length;
   
 
@@ -33,11 +34,15 @@ export default function Home() {
 
 
   const handleClickCheck = () => {
-    setCheck(!check)
-    if (!check) {
-      setIndexRowMatrix(indexRowMatrix + 1)
-      setTextInput('');
-    }
+    if (textInput == '' || textInput.length < length) return;
+    if ( textInput ==  newWord ) console.log("GANASTES");
+    if (indexRowMatrix + 1 == matrix.length) console.log("PERDISTES REY");
+    
+    setTextInput('')
+    setCheck(false)
+    setIndexRowMatrix(indexRowMatrix + 1)
+
+
   }
 
   return (
@@ -53,7 +58,7 @@ export default function Home() {
           onChange={(e) => handleOnChange(e.target.value)} />
 
         <button onClick={handleClickCheck}>check!</button>
-        <Grid word={newWord} revealResult={check} matrix={matrix} />
+        <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix}/>
       </div>
     </main>
   );
