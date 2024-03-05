@@ -1,9 +1,9 @@
-export type statusCell = 'correct' | 'incorrect' | 'free' | 'error';
+export type StatusCell = 'correct' | 'incorrect' | 'free' | 'error';
 
-export type cell = {
-    letter: string,
-    status: statusCell,
-    isReveal: boolean,
-    isEditable: boolean,
-    position: number
+export type Cell = {
+    value?: string,
+    status?: StatusCell,
+    isReveal?: boolean,
+    isEditable?: boolean,
+    position?: number
 };

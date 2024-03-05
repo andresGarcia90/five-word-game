@@ -1,16 +1,35 @@
+import { Cell } from "./definitions";
+
 export function arrayWithValue(value: string, max: number) {
     const arr = new Array(max);
     arr.fill(value);
     return arr;
 }
 
+export function createEmptyMatrix(elem: number) {
+    const matrix = new Array(elem);
+    for (let i = 0; i < elem; i++) {
+        matrix[i] = new Array();
+    }
+    return matrix;
+}
+
 export function matrixOfArrays(xNumber: number, yNumber: number, elements: string) {
-    const matrix = new Array(yNumber);
+    const matrix = createEmptyMatrix(yNumber);
     const arrWithValue = arrayWithValue(elements, xNumber);
     for (let i = 0; i < yNumber; i++) {
         //Always needs to call a diferent array
-        matrix[i] = arrWithValue.slice(0);
+        arrWithValue.forEach((letter, index) => {
+            matrix[i].push({
+                value: letter,
+                status: 'free',
+                isReveal: false,
+                isEditable: false,
+                position: index
+            })
+        })
     }
+  
     return matrix;
 }
 

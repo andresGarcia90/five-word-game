@@ -14,7 +14,7 @@ type Props = {
 
 
 
-export default function Cell({
+export default function CellUI({
     value = '', isEditable = true, status = 'free', position = 0
 }: Props) {
     // console.log(value, isEditable, status, position);

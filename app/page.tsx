@@ -30,7 +30,7 @@ export default function Home() {
       const newMatrix = [...matrix];
       const arrayFormated = createArrayWithSpace(text, length);
       for (let i = 0; i < newMatrix[indexRowMatrix].length; i++) {
-        newMatrix[indexRowMatrix][i] = arrayFormated[i];
+        newMatrix[indexRowMatrix][i].value = arrayFormated[i];
       }
       setMatrix(newMatrix);
     }
@@ -47,7 +47,11 @@ export default function Home() {
     if ( textInput ==  newWord ) console.log("GANASTES");
     if (indexRowMatrix + 1 == matrix.length) console.log("PERDISTES REY");
     const partialSolution = checkSolution(newWord, textInput);
-    console.log(partialSolution);
+    const newMatrix = [...matrix];
+    partialSolution.forEach((solution, index) => {
+      newMatrix[indexRowMatrix][index].status = solution
+    });
+    setMatrix(newMatrix);
     setTextInput('')
     setCheck(false)
     setIndexRowMatrix(indexRowMatrix + 1)
