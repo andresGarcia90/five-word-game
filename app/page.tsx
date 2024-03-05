@@ -3,11 +3,14 @@
 import Grid from "@/app/components/grid/grid";
 import { getRandomWord } from "./lib/words";
 import { useState } from "react";
-import { createArrayWithSpace, matrixOfArrays } from "./lib/common";
+import { checkSolution, createArrayWithSpace, matrixOfArrays } from "./lib/common";
+import Keyboard from "./components/keyboard/keyboard";
+
+const initialState = getRandomWord();
+console.log("Solution: ", initialState);
 
 export default function Home() {
-  const [newWord, setNewWord] = useState("pazos");
-  // const newWord = getRandomWord();
+  const newWord = initialState;
   const length = newWord.length;
   
 
@@ -21,6 +24,7 @@ export default function Home() {
 
 
   const handleOnChange = (text: string) => {
+    text = text.toUpperCase();
     setTextInput(text);
     if (matrix && indexRowMatrix < matrix.length) {
       const newMatrix = [...matrix];
@@ -32,12 +36,18 @@ export default function Home() {
     }
   }
 
+  const handleKeyPress = (key: any) => {
+    console.log(key);
+    handleOnChange(textInput+key);
+    
+  };
 
   const handleClickCheck = () => {
     if (textInput == '' || textInput.length < length) return;
     if ( textInput ==  newWord ) console.log("GANASTES");
     if (indexRowMatrix + 1 == matrix.length) console.log("PERDISTES REY");
-    
+    const partialSolution = checkSolution(newWord, textInput);
+    console.log(partialSolution);
     setTextInput('')
     setCheck(false)
     setIndexRowMatrix(indexRowMatrix + 1)
@@ -49,7 +59,6 @@ export default function Home() {
     <main className="bg-white dark:bg-slate-800">
       <div className="rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
         <h3 className="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
-        <p>{newWord}</p>
         <input
           autoFocus={true}
           maxLength={5}
@@ -59,6 +68,7 @@ export default function Home() {
 
         <button onClick={handleClickCheck}>check!</button>
         <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix}/>
+        <Keyboard  onKeyPress={handleKeyPress}/>
       </div>
     </main>
   );

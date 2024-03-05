@@ -22,7 +22,7 @@ export default function Cell({
     const effect = `${REVEAL_TIME_MS * position}ms`
     const colorCell = `bg-${status}`;
     const classes = classNames(
-        "rounded-md rounded-md border-2 p-0.5 m-0.5 w-10 h-10 flex justify-center items-center",
+        "rounded-md rounded-md border-2 p-0.5 m-0.5  font-semibold text-xl w-10 h-10 flex min-w-12 min-h-12 justify-center items-center",
         colorCell
     );
 
