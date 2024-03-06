@@ -5,13 +5,16 @@ import { getRandomWord } from "./lib/words";
 import { useState } from "react";
 import { checkSolution, createArrayWithSpace, matrixOfArrays } from "./lib/common";
 import Keyboard from "./components/keyboard/keyboard";
+import { Congrats } from "./components/message/congrats";
+import { Failure } from "./components/message/failure";
 
 const initialState = getRandomWord();
+const initialStateList = new Map<string, string>();
 console.log("Solution: ", initialState);
 
 export default function Home() {
-  const newWord = initialState;
-  const length = newWord.length;
+  const [newWord, setNewWord] = useState(initialState);
+  const [length, setLength] = useState(newWord.length);
   
 
   const initialMatrix = matrixOfArrays(length, 6, '');
@@ -22,6 +25,10 @@ export default function Home() {
   const [textInput, setTextInput] = useState('');
   const [check, setCheck] = useState(false);
 
+  const [listLetterUsed, setListLetterUsed] = useState(initialStateList);
+
+  const [showCongrats, setShowCongrats] = useState(false);
+  const [showFailure, setShowFailure] = useState(false);
 
   const handleOnChange = (text: string) => {
     text = text.toUpperCase();
@@ -52,32 +59,51 @@ export default function Home() {
         handleOnChange(newText);
         break;
     }
-    // if (key === 'DELETE') {
-    //   newText = newText.slice(0,-1);
-    // } else {
-    //   newText = `${newText}${key}`
-    // }
-    // handleOnChange(newText);
     
   };
 
   const handleClickCheck = () => {
-    console.log("Click");
-    
     if (textInput == '' || textInput.length < length) return;
-    if ( textInput ==  newWord ) console.log("GANASTES");
-    if (indexRowMatrix + 1 == matrix.length) console.log("PERDISTES REY");
+    if ( textInput ==  newWord ) setShowCongrats(true);
+    if (indexRowMatrix + 1 == matrix.length) setShowFailure(true);
     const partialSolution = checkSolution(newWord, textInput);
     const newMatrix = [...matrix];
     partialSolution.forEach((solution, index) => {
-      newMatrix[indexRowMatrix][index].status = solution
+      newMatrix[indexRowMatrix][index].status = solution;
+      const actualLetter = `${newMatrix[indexRowMatrix][index].value}`;
+      const newListLetterUsed = listLetterUsed;
+      if (solution == 'correct' || solution !== 'free') {
+        newListLetterUsed.set(actualLetter, solution);
+      }
+      setListLetterUsed(newListLetterUsed)
+      
     });
     setMatrix(newMatrix);
     setTextInput('')
     setCheck(false)
     setIndexRowMatrix(indexRowMatrix + 1)
+  }
 
 
+  const resetGame = () => {
+    const word = getRandomWord();
+    console.log(word);
+    setNewWord(word);
+    setLength(word.length);
+    setMatrix(matrixOfArrays(word.length, 6 ,''));
+    setIndexRowMatrix(0)
+    setTextInput('');
+    setCheck(false);
+    setListLetterUsed(new Map<string, string>());
+  }
+
+  const handleCongratsClose = () => {
+    setShowCongrats(false);
+    resetGame();
+  }
+  const handleFailureClose = () => {
+    setShowFailure(false);
+    resetGame();
   }
 
   return (
@@ -93,7 +119,9 @@ export default function Home() {
 
         <button onClick={handleClickCheck}>check!</button>
         <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix}/>
-        <Keyboard  onKeyPress={handleKeyPress}/>
+        <Keyboard keysUsed={listLetterUsed} onKeyPress={handleKeyPress}/>
+        {showCongrats && <Congrats onCloseCongrats={handleCongratsClose} />}
+        {showFailure && <Failure onCloseFailure={handleFailureClose} />}
       </div>
     </main>
   );

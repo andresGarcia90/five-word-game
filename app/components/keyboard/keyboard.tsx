@@ -4,7 +4,12 @@ import { useState } from "react";
 import ButtonKeyboard from "./button-keyboard";
 import ButtonDeleteKeyboard from "./button-delete-keyboard";
 
-export default function Keyboard({ onKeyPress }: any) {
+type Props = {
+    keysUsed: Map<string, string> ,
+    onKeyPress: (key: string) => void
+}
+
+export default function Keyboard({keysUsed, onKeyPress }: Props) {
 
     const [keys] = useState([
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -25,8 +30,13 @@ export default function Keyboard({ onKeyPress }: any) {
             {keys.map((row, rowIndex) => (
                 <div key={rowIndex} className="row text-center">
                     {row.map((key, keyIndex) => {
+                         const statusProcess = keysUsed.get(key) ? keysUsed.get(key) :  'free';
                          return key !== 'DELETE'
-                          ? <ButtonKeyboard key={`BKB-${keyIndex}`} letter={key} onClickHandle={handleClick} status={'free'} /> 
+                          ? <ButtonKeyboard 
+                                key={`BKB-${keyIndex}`} 
+                                letter={key} 
+                                onClickHandle={handleClick} 
+                                status={statusProcess} /> 
                           : <ButtonDeleteKeyboard key={`BDKB`} onClickHandle={handleClick} /> }
                     )}
                 </div>

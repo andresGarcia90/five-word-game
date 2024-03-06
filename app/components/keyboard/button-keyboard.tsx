@@ -2,7 +2,7 @@ import classNames from "classnames";
 
 type Props = {
     letter: string,
-    status: string,
+    status?: string,
     onClickHandle: any
 }
 
