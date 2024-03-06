@@ -1,14 +1,13 @@
 'use client';
 
+import { StatusCell } from "@/app/lib/definitions";
 import { REVEAL_TIME_MS, COLOR_CELL } from "@/app/constant/settings";
 import classNames from "classnames";
-
-type statusCell = 'correct' | 'incorrect' | 'free' | 'error'
 
 type Props = {
     value?: string
     isEditable?: boolean
-    status?: statusCell,
+    status?: StatusCell,
     position?: number
 }
 

@@ -37,12 +37,33 @@ export default function Home() {
   }
 
   const handleKeyPress = (key: any) => {
-    console.log(key);
-    handleOnChange(textInput+key);
+    let newText = textInput;
+    switch (key) {
+      case 'DELETE':
+        newText = newText.slice(0,-1);
+        handleOnChange(newText);
+        break;
+      case 'ENTER':
+        //newText = newText.slice(0,-1);
+        handleClickCheck();
+        break;
+      default:
+        newText = `${newText}${key}`
+        handleOnChange(newText);
+        break;
+    }
+    // if (key === 'DELETE') {
+    //   newText = newText.slice(0,-1);
+    // } else {
+    //   newText = `${newText}${key}`
+    // }
+    // handleOnChange(newText);
     
   };
 
   const handleClickCheck = () => {
+    console.log("Click");
+    
     if (textInput == '' || textInput.length < length) return;
     if ( textInput ==  newWord ) console.log("GANASTES");
     if (indexRowMatrix + 1 == matrix.length) console.log("PERDISTES REY");
