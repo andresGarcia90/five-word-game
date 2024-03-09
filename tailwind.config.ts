@@ -16,16 +16,31 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        'regular-free': "#94a3b8",
-        'yellow-incorrect': "#eab308",
-        'green-correct': "#22c55e",
-        'free': "#94a3b8",
-        'incorrect': "#eab308",
-        'correct': "#22c55e",
-        'error': "#999999"
+        // 'present': "#e4a81d",
+        // 'correct': "#43a047",
+        // 'absent': "#757575",
+        // 'error': '#bb3429'
+
+          'present': 'slate-800',
+          'correct': 'green-600',
+          'absent': 'yellow-600',
+          'error': 'red-600'
       },
     },
   },
   plugins: [],
 };
 export default config;
+  
+
+
+// --color-absent: #757575;
+// --color-present: #e4a81d;
+// --color-correct: #43a047;
+// --color-error: #bb3429;
+
+// --bg-absent: #757575;
+// --bg-present: #e4a81d;
+// --bg-correct: #43a047;
+// --bg-error: #bb3429;
+

@@ -22,7 +22,7 @@ export function matrixOfArrays(xNumber: number, yNumber: number, elements: strin
         arrWithValue.forEach((letter, index) => {
             matrix[i].push({
                 value: letter,
-                status: 'free',
+                status: '',
                 isReveal: false,
                 isEditable: false,
                 position: index
@@ -68,13 +68,13 @@ export function checkSolution(solution: string, currentWord: string) {
         }
         else {
             if (!setSolution[letter]) {
-                solutionFormatted.push('error');
+                solutionFormatted.push('absent');
             }
             if (setSolution[letter] && setSolution[letter] > 0) {
                 if (setSolution[letter] < setCurrent[letter]) {
-                    solutionFormatted.push('error')
+                    solutionFormatted.push('absent')
                 } else {
-                    solutionFormatted.push('incorrect');
+                    solutionFormatted.push('present');
                 }
                 setCurrent[letter]--;
             }

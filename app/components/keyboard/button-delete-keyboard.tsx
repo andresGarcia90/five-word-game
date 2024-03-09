@@ -8,7 +8,8 @@ type Props = {
 export default function ButtonDeleteKeyboard({ onClickHandle }: Props) {
 
     const classes = classNames(
-        "bg-red-500 rounded-md font-semibold text-xl min-w-12 p-3 my-2 mx-1",
+        "bg-red-500 hover:bg-red-600 text-black dark:text-white rounded-md font-semibold text-xl min-w-12 p-3 my-2 mx-1",
+        "rotate: y 90deg;"
     );
 
     const handleClick = () => {
