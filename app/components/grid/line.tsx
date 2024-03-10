@@ -9,7 +9,7 @@ type Props = {
   revealResult: boolean
 }
 
-export const Line = ({ word, currentWord, revealResult }: Props) => {
+export const Line = ({ currentWord }: Props) => {
 
   return (
     <div className="flex justify-center align-center">

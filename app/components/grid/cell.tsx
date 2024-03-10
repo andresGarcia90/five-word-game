@@ -1,7 +1,7 @@
 'use client';
 
 import { StatusCell } from "@/app/lib/definitions";
-import { REVEAL_TIME_MS, COLOR_CELL } from "@/app/constant/settings";
+import { REVEAL_TIME_MS } from "@/app/constant/settings";
 import classNames from "classnames";
 import styled, {  keyframes } from "styled-components";
 

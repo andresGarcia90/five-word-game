@@ -7,15 +7,17 @@ import { checkSolution, createArrayWithSpace, matrixOfArrays } from "./lib/commo
 import Keyboard from "./components/keyboard/keyboard";
 import { Congrats } from "./components/message/congrats";
 import { Failure } from "./components/message/failure";
+import { WordLib } from "@arvidbt/wordlib";
+import {spanish_words} from '@arvidbt/spanish-words';
+import { Alert, Slide } from "@mui/material";
+
 
 const initialState = getRandomWord();
 const initialStateList = new Map<string, string>();
-console.log("Solution: ", initialState);
 
 export default function Home() {
   const [newWord, setNewWord] = useState(initialState);
   const [length, setLength] = useState(newWord.length);
-  
 
   const initialMatrix = matrixOfArrays(length, 6, '');
   const [matrix, setMatrix] = useState(initialMatrix);
@@ -29,6 +31,9 @@ export default function Home() {
 
   const [showCongrats, setShowCongrats] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
+
+  const spWords = new WordLib(spanish_words);
+  const [showInvalidWord, setShowInvalidWord] = useState(false);
 
   const handleOnChange = (text: string) => {
     text = text.toUpperCase();
@@ -49,6 +54,7 @@ export default function Home() {
       case 'DELETE':
         newText = newText.slice(0,-1);
         handleOnChange(newText);
+        setShowInvalidWord(false)
         break;
       case 'ENTER':
         //newText = newText.slice(0,-1);
@@ -62,8 +68,21 @@ export default function Home() {
     
   };
 
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    handleClickCheck();
+  }
+
   const handleClickCheck = () => {
     if (textInput == '' || textInput.length < length) return;
+    if ( !spWords.isWord(textInput) ){
+      setShowInvalidWord(true);
+      setTimeout(() => {
+        setShowInvalidWord(false)
+      }, 2000);
+      return
+    } 
+    
     if ( textInput ==  newWord ) setShowCongrats(true);
     if (indexRowMatrix + 1 == matrix.length) setShowFailure(true);
     const partialSolution = checkSolution(newWord, textInput);
@@ -87,7 +106,6 @@ export default function Home() {
 
   const resetGame = () => {
     const word = getRandomWord();
-    console.log(word);
     setNewWord(word);
     setLength(word.length);
     setMatrix(matrixOfArrays(word.length, 6 ,''));
@@ -108,16 +126,22 @@ export default function Home() {
 
   return (
     <main className="bg-white dark:bg-slate-800">
+       <Slide direction="down" mountOnEnter unmountOnExit in={showInvalidWord}>
+        <div className="flex justify-center">
+          <Alert variant="filled" severity="error" className="absolute max-w-50">Palabra invalida.</Alert>
+        </div>
+        </Slide>
+        
+      
       <div className="rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-        <h3 className="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
-        <input
-          autoFocus={true}
-          maxLength={5}
-          type="text"
-          value={textInput}
-          onChange={(e) => handleOnChange(e.target.value)} />
-
-        <button onClick={handleClickCheck}>check!</button>
+        <form onSubmit={handleSubmit}>
+          <input
+            autoFocus={true}
+            maxLength={5}
+            type="text"
+            value={textInput}
+            onChange={(e) => handleOnChange(e.target.value)} />
+        </form>
         <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix}/>
         <Keyboard keysUsed={listLetterUsed} onKeyPress={handleKeyPress}/>
         {showCongrats && <Congrats onCloseCongrats={handleCongratsClose} />}

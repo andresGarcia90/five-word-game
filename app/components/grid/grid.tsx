@@ -10,12 +10,10 @@ type Props = {
 };
 
 export default function Grid({word, revealResult: revealResult, currentLine, matrix}: Props) {
-  const arrayCorrectWord = word.split("");
   
   return (
     <div className="grid grid-cols-1 gap-4">
         {matrix.map((line, index) => {
-
           const revealCurrent = (currentLine > index) || (revealResult && currentLine == index);
           return <Line key={`Line-${index}`} word={word} currentWord={line} revealResult={revealCurrent}/>
         }

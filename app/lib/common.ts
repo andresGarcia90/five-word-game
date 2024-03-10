@@ -1,5 +1,3 @@
-import { Cell } from "./definitions";
-
 export function arrayWithValue(value: string, max: number) {
     const arr = new Array(max);
     arr.fill(value);
