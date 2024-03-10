@@ -7,6 +7,7 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   const toggleTheme = () => {
     if (!isDarkTheme) {
