@@ -1,15 +1,13 @@
 'use client';
 
-import Grid from "@/app/components/grid/grid";
-import { getRandomWord } from "./lib/words";
 import { useState } from "react";
+import { getRandomWord, isWord } from "./lib/words";
 import { checkSolution, createArrayWithSpace, matrixOfArrays } from "./lib/common";
+import Grid from "@/app/components/grid/grid";
 import Keyboard from "./components/keyboard/keyboard";
 import { Congrats } from "./components/message/congrats";
 import { Failure } from "./components/message/failure";
-import { WordLib } from "@arvidbt/wordlib";
-import {spanish_words} from '@arvidbt/spanish-words';
-import { Alert, Slide } from "@mui/material";
+import IncorrectWord from "./components/message/incorrect-word";
 
 
 const initialState = getRandomWord();
@@ -32,7 +30,6 @@ export default function Home() {
   const [showCongrats, setShowCongrats] = useState(false);
   const [showFailure, setShowFailure] = useState(false);
 
-  const spWords = new WordLib(spanish_words);
   const [showInvalidWord, setShowInvalidWord] = useState(false);
 
   const handleOnChange = (text: string) => {
@@ -52,7 +49,7 @@ export default function Home() {
     let newText = textInput;
     switch (key) {
       case 'DELETE':
-        newText = newText.slice(0,-1);
+        newText = newText.slice(0, -1);
         handleOnChange(newText);
         setShowInvalidWord(false)
         break;
@@ -65,7 +62,7 @@ export default function Home() {
         handleOnChange(newText);
         break;
     }
-    
+
   };
 
   const handleSubmit = (event: any) => {
@@ -75,15 +72,15 @@ export default function Home() {
 
   const handleClickCheck = () => {
     if (textInput == '' || textInput.length < length) return;
-    if ( !spWords.isWord(textInput) ){
+    if (!isWord(textInput)) {
       setShowInvalidWord(true);
       setTimeout(() => {
         setShowInvalidWord(false)
       }, 2000);
       return
-    } 
-    
-    if ( textInput ==  newWord ) setShowCongrats(true);
+    }
+
+    if (textInput == newWord) setShowCongrats(true);
     if (indexRowMatrix + 1 == matrix.length) setShowFailure(true);
     const partialSolution = checkSolution(newWord, textInput);
     const newMatrix = [...matrix];
@@ -95,7 +92,7 @@ export default function Home() {
         newListLetterUsed.set(actualLetter, solution);
       }
       setListLetterUsed(newListLetterUsed)
-      
+
     });
     setMatrix(newMatrix);
     setTextInput('')
@@ -108,7 +105,7 @@ export default function Home() {
     const word = getRandomWord();
     setNewWord(word);
     setLength(word.length);
-    setMatrix(matrixOfArrays(word.length, 6 ,''));
+    setMatrix(matrixOfArrays(word.length, 6, ''));
     setIndexRowMatrix(0)
     setTextInput('');
     setCheck(false);
@@ -126,13 +123,7 @@ export default function Home() {
 
   return (
     <main className="bg-white dark:bg-slate-800">
-       <Slide direction="down" mountOnEnter unmountOnExit in={showInvalidWord}>
-        <div className="flex justify-center">
-          <Alert variant="filled" severity="error" className="absolute max-w-50">Palabra invalida.</Alert>
-        </div>
-        </Slide>
-        
-      
+      <IncorrectWord show={showInvalidWord} />
       <div className="rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
         <form onSubmit={handleSubmit}>
           <input
@@ -140,10 +131,11 @@ export default function Home() {
             maxLength={5}
             type="text"
             value={textInput}
+            hidden={true}
             onChange={(e) => handleOnChange(e.target.value)} />
         </form>
-        <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix}/>
-        <Keyboard keysUsed={listLetterUsed} onKeyPress={handleKeyPress}/>
+        <Grid word={newWord} revealResult={check} matrix={matrix} currentLine={indexRowMatrix} />
+        <Keyboard keysUsed={listLetterUsed} onKeyPress={handleKeyPress} />
         {showCongrats && <Congrats onCloseCongrats={handleCongratsClose} />}
         {showFailure && <Failure onCloseFailure={handleFailureClose} />}
       </div>
