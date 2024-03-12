@@ -47,6 +47,7 @@ export default function Home() {
 
   const handleKeyPress = (key: any) => {
     let newText = textInput;
+    setCheck(false);
     switch (key) {
       case 'DELETE':
         newText = newText.slice(0, -1);
@@ -79,7 +80,6 @@ export default function Home() {
       }, 2000);
       return
     }
-    setCheck(true);
     if (textInput == newWord) setShowCongrats(true);
     if (indexRowMatrix + 1 == matrix.length) setShowFailure(true);
     const partialSolution = checkSolution(newWord, textInput);
@@ -94,9 +94,9 @@ export default function Home() {
       setListLetterUsed(newListLetterUsed)
     });
     setMatrix(newMatrix);
-    setCheck(false)
-    setIndexRowMatrix(indexRowMatrix + 1)
-    setTextInput('')
+    setCheck(true);
+    setTextInput('');
+    setIndexRowMatrix(indexRowMatrix + 1);
   }
 
 

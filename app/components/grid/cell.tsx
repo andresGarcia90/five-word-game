@@ -15,7 +15,7 @@ type Props = {
     reveal?: boolean
 }
 
-export default function CellUI({ value = '', isEditable = true, status='free', position = 0, reveal = false }: Props) {
+export default function CellUI({ value = '', isEditable = false, status='free', position = 0, reveal = false }: Props) {
     const colorVariants = {
         'free':     'bg-white text-black',
         'present':  'bg-yellow-600 text-white dark:bg-yellow-500',
@@ -23,7 +23,7 @@ export default function CellUI({ value = '', isEditable = true, status='free', p
         'absent':   'bg-slate-800 text-white dark:bg-neutral-500',
         'error':    'bg-red-600 text-white dark:bg-red-500'
     }
-    const colorCell =  `${status ? colorVariants[status] : ""}`;
+    const colorCell =  `${isEditable && status ? colorVariants[status] : ""}`;
 
     const effect = REVEAL_TIME_MS * position;
 
@@ -36,7 +36,7 @@ export default function CellUI({ value = '', isEditable = true, status='free', p
     const [scope, animate] = useAnimate()
 
     if (reveal) {
-        animate(scope.current, { rotateX: [0, 180, 0] },  {duration: 1.5, delay: effect })
+        animate(scope.current, { rotateX: [0, 360] },  {duration: 0.8, delay: effect })
     }
     
    
