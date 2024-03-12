@@ -79,7 +79,7 @@ export default function Home() {
       }, 2000);
       return
     }
-
+    setCheck(true);
     if (textInput == newWord) setShowCongrats(true);
     if (indexRowMatrix + 1 == matrix.length) setShowFailure(true);
     const partialSolution = checkSolution(newWord, textInput);
@@ -92,12 +92,11 @@ export default function Home() {
         newListLetterUsed.set(actualLetter, solution);
       }
       setListLetterUsed(newListLetterUsed)
-
     });
     setMatrix(newMatrix);
-    setTextInput('')
     setCheck(false)
     setIndexRowMatrix(indexRowMatrix + 1)
+    setTextInput('')
   }
 
 

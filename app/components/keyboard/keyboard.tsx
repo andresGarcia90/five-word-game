@@ -24,7 +24,7 @@ export default function Keyboard({keysUsed, onKeyPress }: Props) {
     return (
         <div className="flex flex-col justify-center mt-4">
             <div className="row text-center">
-                <button className="bg-green-500 hover:bg-green-600 rounded-md font-semibold text-xl min-w-12 p-3 my-2 mx-1"
+                <button className="bg-green-500 hover:bg-green-600 rounded-md font-semibold text-xl min-w-12 p-3 my-2 mx-1 dark:text-white"
                     onClick={() => handleClick('ENTER')}>ENVIAR</button>
             </div>
             {keys.map((row, rowIndex) => (

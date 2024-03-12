@@ -9,12 +9,12 @@ type Props = {
   revealResult: boolean
 }
 
-export const Line = ({ currentWord }: Props) => {
+export const Line = ({ currentWord, revealResult }: Props) => {
 
   return (
     <div className="flex justify-center align-center">
       {currentWord.map((letter, index) =>
-        <CellUI key={`cell_${index}`} value={letter.value} position={index} isEditable={letter.isEditable} status={letter.status} />)}
+        <CellUI key={`cell_${index}`} value={letter.value} position={index} isEditable={letter.isEditable} status={letter.status}  reveal={revealResult}/>)}
     </div>
   )
 }
