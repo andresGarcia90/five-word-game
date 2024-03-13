@@ -8,10 +8,11 @@ import Keyboard from "./components/keyboard/keyboard";
 import { Congrats } from "./components/message/congrats";
 import { Failure } from "./components/message/failure";
 import IncorrectWord from "./components/message/incorrect-word";
+import { StatusCell } from "./lib/definitions";
 
 
 const initialState = getRandomWord();
-const initialStateList = new Map<string, string>();
+const initialStateList = new Map<string, StatusCell>();
 
 export default function Home() {
   const [newWord, setNewWord] = useState(initialState);
@@ -108,7 +109,7 @@ export default function Home() {
     setIndexRowMatrix(0)
     setTextInput('');
     setCheck(false);
-    setListLetterUsed(new Map<string, string>());
+    setListLetterUsed(new Map<string, StatusCell>());
   }
 
   const handleCongratsClose = () => {

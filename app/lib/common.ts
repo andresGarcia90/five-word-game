@@ -1,3 +1,5 @@
+import { StatusCell } from "./definitions";
+
 export function arrayWithValue(value: string, max: number) {
     const arr = new Array(max);
     arr.fill(value);
@@ -58,7 +60,7 @@ export function setOfString(text: string): { [key: string]: number } {
 export function checkSolution(solution: string, currentWord: string) {
     const setSolution: { [key: string]: number } = setOfString(solution);
     const setCurrent: { [key: string]: number } = setOfString(currentWord);
-    const solutionFormatted: Array<string> = [];
+    const solutionFormatted: Array<StatusCell> = [];
 
     currentWord.split('').forEach((letter, index) => {
         if (letter == solution[index]) {

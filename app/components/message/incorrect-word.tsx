@@ -8,7 +8,7 @@ export default function IncorrectWord(Props: Props) {
     return (
         <Slide direction="down" mountOnEnter unmountOnExit in={Props.show}>
             <div className="flex justify-center">
-                <Alert variant="filled" severity="error" className="absolute max-w-50">Palabra invalida.</Alert>
+                <Alert variant="filled" severity="error" className="absolute z-50 max-w-50">Palabra invalida.</Alert>
             </div>
         </Slide>
     )

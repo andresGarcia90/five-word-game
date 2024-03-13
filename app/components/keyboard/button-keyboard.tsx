@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 type Props = {
     letter: string,
-    status: StatusCell,
+    status?: StatusCell,
     onClickHandle: any
 }
 
